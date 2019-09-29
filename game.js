@@ -11,8 +11,8 @@ class Game {
         //this.intervalIdTime = null;
         this.obstacles = [
          new Obstacle(ctx,700,300,300,30),
-         new Obstacle(ctx,1000,200,200,30),
-         new Obstacle(ctx,1250,150,200,30),
+         //new Obstacle(ctx,1000,200,200,30),
+         //new Obstacle(ctx,1250,150,200,30),
          
         ]
     
@@ -30,9 +30,9 @@ class Game {
       
       //this._clearObstacles()
       //this._checkCollisions()
-      this.crashWithUpperParts()
+      //this.crashWithUpperParts()
       this.updateGameArea()
-      //console.log(this.player.y+this.player.h)
+      console.log(this.player.y)
       //console.log(this.obstacles[0].y)
     }, 1000 / 60)
   }
@@ -56,6 +56,7 @@ class Game {
     this.obstacles.forEach(o => o.move())
   }
 
+  
   updateGameArea(){
     if(this.player.crashWithUpperParts(this.obstacles)){
       for (let i = 0; i < this.obstacles.length; i++) { 
@@ -66,35 +67,6 @@ class Game {
       this.player.y = this.player.y0
     }
   }
-
-
-  crashWithUpperParts = (obs) => {
-  
-    for (let i = 0; i < this.obs.length; i++) {
-    
-    
-    const myleft = this.player.x;
-    const myright = this.player.x+(this.player.w);
-    const mybottom = this.player.y + (this.player.h);
-    const mytop= this.player.y
-    const otherleft = this.obs[i].x;
-    const otherright = this.obs[i].x +(this.obs[i].w);
-    const otherbottom = this.obs[i].y + (this.obs[i].h);
-    const othertop = this.obs[i].y;
-    
-    let crash = false
-
-    if (mybottom<othertop){
-      crash = false
-    }
-    else if(myleft>=otherleft){
-      crash = true
-    }
-    
-    return crash
-   }
-  }
-
   
   
   _checkCollisions(){
@@ -108,6 +80,8 @@ class Game {
       this._gameOver()
     }
   }
+
+  
   
 
   _gameOver() {

@@ -15,8 +15,8 @@ class Player {
         this.y0=350
 
         this._setListeners()
-
-
+        //this.crashWithUpperParts(obs)
+        //this.obstacle= [new Obstacle(ctx,700,700,300,30)]
 
     }
 
@@ -64,6 +64,49 @@ class Player {
 
       _isJumping() {
         return this.y < this.y0
+      }
+/*
+      */
+    
+    
+      crashWithUpperParts = (obs) => {
+      
+    
+        
+        
+        const myleft = this.x;
+        const myright = this.x+(this.w);
+        const mybottom = this.y + (this.h);
+        const mytop= this.y
+        const otherleft = obs.x;
+        const otherright = obs.x +(obs.w);
+        const otherbottom = obs.y + (obs.h);
+        const othertop = obs.y;
+
+        /*
+        const myleft = this.x;
+        const myright = this.x+(this.w);
+        const mybottom = this.y + (this.h);
+        const mytop= this.y
+        const otherleft = this.obs[i].x;
+        const otherright = this.obs[i].x +(this.obs[i].w);
+        const otherbottom = this.obs[i].y + (this.obs[i].h);
+        const othertop = this.obs[i].y;
+        
+        */
+
+        
+        let crash = false
+    
+        if (mybottom<othertop){
+          crash = false
+        }
+        else if(myleft>=otherleft){
+          crash = true
+        }
+        console.log(crash)
+        return crash
+       
       }
   
 }
