@@ -54,53 +54,53 @@ class Player {
   }
 
   runningOnObstacle = obsta => {
-    if (this.crashWithUpperParts(obsta) === 1) {
-      this.vy = 0;
-      //const bottomPlayer = this.y +this.h
-      this.y = obsta.y - this.h;
+    if (this.crashWithTopObstacle(obsta) === 4  && this.y + this.h < obsta.y) {
+      
+      this.vy += 0.2*this.ay;
+      this.y0 = obsta.y - this.h
+
+      
+      
     }
+
+    else if(this.crashWithTopObstacle(obsta) === 4){
+      console.log("game over")
+    } 
   };
 
   crashWithTopObstacle = obs => {
-    let crash = 0;
+    let pos = 0;
 
-    if(this.x +this.h === obs.y){
-      debugger
-    }
-
-    const colX = this.x + this.w > obs.x && this.x < obs.x + obs.w
-    const colY = this.y + this.h > obs.y && this.y < obs.y + obs.h
-
+    //loop para los obstaculos
     
-
+    //detección por arriba
     if (this.x + this.w === obs.x && this.y + this.h < obs.y) {
-      crash = 1;
+      pos = 1;
+    //detección por abajo  
     } else if (this.x + this.w === obs.x && this.y > obs.y + obs.h) {
-      crash = 2;
+      pos = 2;
+    //detección cuando choca con la parte izda del obstaculo  
     } else if (
       this.x + this.w === obs.x &&
       obs.y <= this.y &&
       this.y <= obs.y + obs.h
     ) {
-      crash = 3;
+      pos = 3;
+    //detección cuando se encuentra  a lo largo del obstaculo
     } else if (
-      obs.x < this.x + this.w &&
-      this.x + this.w < obs.x + obs.w &&
-      this.y + this.h === obs.y
-    ) {
-      crash = 4;
+      obs.x <= this.x + this.w &&
+      this.x + this.w <= obs.x + obs.w 
+     
+    ){
+      pos = 4;
     }
 
-    console.log("crash " + crash);
+    //console.log("position " + pos);
 
-    return crash;
+    return pos;
   };
 
-  obstacleDetection = obst => {
-    if (this.x > obst.x + obst.w) {
-      this.vy = this.vy * -1;
-    }
-  };
+
 
   checkIsFloor() {
     let floor = false;

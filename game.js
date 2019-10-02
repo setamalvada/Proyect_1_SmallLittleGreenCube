@@ -9,7 +9,7 @@ class Game {
         //this.car = new Car(ctx)  
         this.intervalId = null
         //this.intervalIdTime = null;
-        this.obstacles = new Obstacle(ctx,700,320,300,100)
+        this.obstacles = new Obstacle(ctx,700,320,320,30)
          //new Obstacle(ctx,1000,200,200,30),
          //new Obstacle(ctx,1250,150,200,30),
          
@@ -26,18 +26,12 @@ class Game {
       //this._clear()
       this.draw()
       this._move()
-      
-      //this._clearObstacles()
-      //this._checkCollisions()
-      this.player.crashWithTopObstacle(this.obstacles)
-      this.player.obstacleDetection(this.obstacles)
-      this.player.checkIsFloor()
       this.player.runningOnObstacle(this.obstacles)
-      //this.checkJumpInObstacle()
-      //this.updateGameArea()
-     console.log(this.player.vy)
-      //console.log(this.player.y)
-      //console.log(this.obstacles[0].y)
+      this.player.crashWithTopObstacle(this.obstacles)
+
+      this.player.checkIsFloor()
+    
+      console.log(this.player.y0)
     }, 1000 / 60)
   }
   //Aquí van los métodos
@@ -61,33 +55,10 @@ class Game {
   }
 
   
-  /*updateGameArea(){
-  if(this.player.crashWithUpperParts(this.obstacles)){
-    this.player.y = this.obstacles.y-(this.obstacles.h+this.obstacles.h/2)
-    
-  }
-
-  else{
-    this.vy = -this.vy
-  }*/
-      //for (let i = 0; i < this.obstacles.length; i++) { 
-      
-      
-      //}
-    
-   /* else if (this.player.checkPos(this.obstacles)){
-      this.player.y0 = 350
-    }
-  }*/
   
-  /*checkJumpInObstacle(){
-    if(this.player.crashWithUpperParts(this.obstacles)){
-      this.player._jump()
-    }
-  }*/
   
   _checkCollisions(){
-    const col = this.obstacles.some(o => {
+    const col = this.obstacles1.some(o => {
       const result =o.collide(this.player)
       console.log(result)
       return result
