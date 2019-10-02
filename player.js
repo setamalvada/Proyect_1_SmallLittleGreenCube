@@ -54,17 +54,22 @@ class Player {
   }
 
   runningOnObstacle = obsta => {
-    if (this.crashWithTopObstacle(obsta) === 4  && this.y + this.h < obsta.y) {
-      
-      this.vy += 0.2*this.ay;
+    if (this.crashWithTopObstacle(obsta) === 4 ) {
+      if(this.y + this.h < obsta.y){
+        this.vy += 0.2*this.ay;
       this.y0 = obsta.y - this.h
+      }
+      else{
+        console.log("game over")
+      }
+      
 
       
       
     }
 
-    else if(this.crashWithTopObstacle(obsta) === 4){
-      console.log("game over")
+    else{
+      this.y0 = 350
     } 
   };
 
