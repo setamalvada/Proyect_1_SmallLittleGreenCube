@@ -13,7 +13,7 @@ class Player {
     this.h0 = 0;
     this.y0 = 350;
     this.jumping = true;
-
+    
     this._setListeners();
     //this.crashWithUpperParts(obs)
     //this.obstacle= [new Obstacle(ctx,700,700,300,30)]
@@ -21,6 +21,7 @@ class Player {
 
   draw() {
     this.ctx.fillRect(this.x, this.y, this.w, this.h);
+    this.ctx.fillStyle = "#FF0000";
   }
 
   move() {
@@ -54,55 +55,57 @@ class Player {
   }
 
   runningOnObstacle = obsta => {
-    if (this.crashWithTopObstacle(obsta) === 4 ) {
-      if(this.y + this.h < obsta.y){
+    // console.log(obsta.some(o => {
+    //   return this.crashWithTopObstacle(o)
+    // }))
+    obsta.some(o => {
+
+      if (this.crashWithTopObstacle(o) === 4 ){
+        if(this.y + this.h < o.y){
+
         this.vy += 0.2*this.ay;
-      this.y0 = obsta.y - this.h
-      }
-      else{
-        console.log("game over")
-      }
-      
+        this.y0 = o.y - this.h
 
-      
-      
-    }
+        console.log(this.y0)
+        }
+      } else if(!this.crashWithTopObstacle(o) && this.y0 === o.y - this.h)  {
+        //console.log('entra')
+          this.y0 = 350
+        } 
+      })
 
-    else{
-      this.y0 = 350
-    } 
   };
 
   crashWithTopObstacle = obs => {
     let pos = 0;
-
-    //loop para los obstaculos
-    
-    //detección por arriba
-    if (this.x + this.w === obs.x && this.y + this.h < obs.y) {
-      pos = 1;
-    //detección por abajo  
-    } else if (this.x + this.w === obs.x && this.y > obs.y + obs.h) {
-      pos = 2;
-    //detección cuando choca con la parte izda del obstaculo  
-    } else if (
-      this.x + this.w === obs.x &&
-      obs.y <= this.y &&
-      this.y <= obs.y + obs.h
-    ) {
-      pos = 3;
-    //detección cuando se encuentra  a lo largo del obstaculo
-    } else if (
-      obs.x <= this.x + this.w &&
-      this.x + this.w <= obs.x + obs.w 
-     
-    ){
-      pos = 4;
-    }
-
-    //console.log("position " + pos);
+      //loop para los obstaculos
+      
+        //detección por arriba
+        if (this.x + this.w === obs.x && this.y + this.h < obs.y) {
+          pos = 1;
+        //detección por abajo  
+        } else if (this.x + this.w === obs.x && this[i].y > obs.y + obs.h) {
+          pos = 2;
+        //detección cuando choca con la parte izda del obstaculo  
+        } else if (
+          this.x + this.w === obs.x &&
+          obs.y <= this.y &&
+          this.y <= obs.y + obs.h
+        ) {
+          pos = 3;
+        //detección cuando se encuentra  a lo largo del obstaculo
+        } else if (
+          obs.x <= this.x + this.w &&
+          this.x + this.w <= obs.x + obs.w 
+        ){
+          pos = 4;
+      } else {
+        return false
+      }
 
     return pos;
+
+    
   };
 
 
@@ -112,7 +115,7 @@ class Player {
     if (this.y >= this.ctx.canvas.height - this.h) {
       floor = true;
     }
-    console.log("floor " + floor);
+      // console.log("floor " + floor);
     return floor;
   }
 }

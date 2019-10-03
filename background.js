@@ -9,7 +9,7 @@ class Background {
       this.vx = -2
   
       this.img = new Image()
-      this.img.src = "http://www.vbforums.com/attachment.php?attachmentid=113103&d=1398112502"
+      this.img.src = "images/city_good2.png"
     }
   
     draw() {

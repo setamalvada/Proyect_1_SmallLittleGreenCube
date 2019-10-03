@@ -1,3 +1,7 @@
-#my-canvas{
-    border: solid red 2px;
+#my-canvas {
+    background-color: white;
+    position:absolute;
+    top:0;
+    left:0;
 }
+

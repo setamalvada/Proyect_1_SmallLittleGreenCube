@@ -5,7 +5,7 @@ class Obstacle {
       this.w = w
       this.h = h
       this.x = x
-      this.vx = -7
+      this.vx = -9
     }
   
     draw() {
