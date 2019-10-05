@@ -1,11 +1,13 @@
 class Spike {
   constructor(ctx,x,y,w,h) {
     this.ctx = ctx
-    this.y = y 
-    this.h = h
-    this.w = w
+    this.y = Math.floor(Math.random()*(this.ctx.canvas.height-(this.ctx.canvas.height/4))+(this.ctx.canvas.height/4)) 
+    this.h = 50
+    this.w = 50
     this.x = x
-    this.vx = -9
+    this.ay = 0.8
+    this.vx = -15
+    this.vy = -15
   }        
   
   draw(){
@@ -23,6 +25,8 @@ class Spike {
 
     move() {
       this.x += this.vx
+      this.vy += this.ay;
+      this.y += this.vy;
     }
   
     collide(el) {

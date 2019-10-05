@@ -16,41 +16,50 @@ body{
    top: -300px;
     width: 900px;
     height: 400px;
-    background-color: red;
+    background-color:rgb(162, 211, 218);
     -webkit-animation-name: example; 
-    -webkit-animation-duration: 4s; 
+    -webkit-animation-duration: 20s; 
     animation-name: example;
-    animation-duration: 60s;
+    animation-duration: 289s;
     z-index:- 1;
+    animation-timing-function: linear;
   }
   
   @-webkit-keyframes example {
-    0%   {background-color: red;}
-    25%  {background-color: yellow;}
-    50%  {background-color: blue;}
-    100% {background-color: green;}
+    /*0%   {background-color: rgb(162, 211, 218);}
+    10.73%  {background-color: rgb(248, 160, 28);}
+    31.14%  {background-color: rgb(16, 28, 61);}
+    70.93% {background-color: rgb(206, 129, 193);}
+    100%   {background-color: rgb(162, 211, 218);}*/
+    0%   {background-color: rgb(162, 211, 218);}
+    31.14%  {background-color: rgb(248, 160, 28);}
+    70.93%  {background-color: rgb(16, 28, 61);}
+    100% {background-color: rgb(206, 129, 193);}
   }
   
   @keyframes example {
-    0%   {background-color: red;}
-    25%  {background-color: yellow;}
-    50%  {background-color: blue;}
-    100% {background-color: green;}
+    0%   {background-color: rgb(162, 211, 218);}
+    10.73%  {background-color: rgb(248, 160, 28);}
+    31.14%  {background-color: rgb(16, 28, 61);}
+    70.93% {background-color: rgb(206, 129, 193);}
   }
 
   /*animación para estrellas*/
 
   .stars {
     position: relative;
-    background-color: white;
+    background-color: transparent;
     height: 10px;
     width: 10px;
     border-radius: 50%;
     animation-iteration-count: infinite;
     z-index: 10;
+    animation-duration: 80s;
+    animation-delay: 126s;
   }
 
   .star-1 {
+    
     margin-top: 50px; 
     margin-left: 60%;
     animation-duration: 1s;
@@ -157,9 +166,11 @@ body{
   }
 
   @keyframes twinkle {
+    
     20% {
       transform: scale(0.5);
-      opacity: 0.5;
+      background-color: white;
+      opacity: 0.3;
     }
   }
 

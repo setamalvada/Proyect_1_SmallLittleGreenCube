@@ -1,12 +1,12 @@
 class MovingObstacle {
     constructor(ctx,x,y,w,h) {
       this.ctx = ctx
-      this.y = y
-      this.w = w
-      this.h = h
+      this.y = Math.floor(Math.random()*(this.ctx.canvas.height-(this.ctx.canvas.height/4))+(this.ctx.canvas.height/4))
+      this.w = 25
+      this.h = 25
       this.x = x
-      this.vx = -9
-      this.vy = 7
+      this.vx = -12
+      // this.vy = 6
     }
   
     draw() {
@@ -20,7 +20,7 @@ class MovingObstacle {
   
     move() {
       this.x += this.vx
-      this.y += this.vy
+      // this.y += this.vy
     }
 
     

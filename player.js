@@ -1,4 +1,5 @@
 const SPACE_KEY = 32;
+const M_KEY = 77;
 
 class Player {
   constructor(ctx) {
@@ -9,11 +10,13 @@ class Player {
     this.w = 50;
     this.h = 50;
     this.vy = 3;
+    this.g=0.8;
+    this.vx = 0
     this.ay = 0.8;
     this.h0 = 0;
     this.y0 = 350;
     this.jumping = true;
-    
+    this.tick = 0
     this._setListeners();
     //this.crashWithUpperParts(obs)
     //this.obstacle= [new Obstacle(ctx,700,700,300,30)]
@@ -28,53 +31,90 @@ class Player {
     if (this.y < this.y0) {
       this.vy += this.ay;
       this.y += this.vy;
-    } else {
+    } 
+    // else if(this.tick++>50){
+    // this.vy += this.ay;
+    // }
+    
+    else {
       this.vy = 0;
       this.y = this.y0;
     }
+
+    
+
+    
   }
 
   _setListeners() {
     document.onkeydown = e => {
       if (e.keyCode === SPACE_KEY) {
+       if(this.tick>4300){
         this._jump();
       }
+      else{
+        this._jump2()
+      }
+      }
+      
     };
+    // document.onkeydown = e => {
+    //   if (e.keyCode === 86) {
+    //     this.small();
+    //   }
+    // };
   }
+
+  // small(){
+  //   this.h = 25
+  //   this.w = 25
+  //   this.vy =0
+    
+  // }
+
+ 
 
   _jump() {
     if (!this._isJumping()) {
       this.jumping = true;
-      this.y -= 20;
+      this.y -= 17;
       this.vy -= 15;
     }
+  }
+
+  _jump2() {
+    
+    this.ay = 0.6;
+      this.y -= 10;
+      this.vy -= 0.8;
+    
   }
 
   _isJumping() {
     return this.y < this.y0;
   }
 
-  runningOnObstacle = obsta => {
+
+  runningOnObstacle = obstacles => {
     // console.log(obsta.some(o => {
     //   return this.crashWithTopObstacle(o)
     // }))
-    obsta.some(o => {
-
-      if (this.crashWithTopObstacle(o) === 4 ){
-        if(this.y + this.h < o.y){
-
-        this.vy += 0.2*this.ay;
-        this.y0 = o.y - this.h
-
-        console.log(this.y0)
-        }
-      } else if(!this.crashWithTopObstacle(o) && this.y0 === o.y - this.h)  {
-        //console.log('entra')
-          this.y0 = 350
+    for (let i in obstacles) {
+      if (this.crashWithTopObstacle(obstacles[i]) === 4) {
+        if (this.y + this.h < obstacles[i].y) {
+          this.vy += 0.2 * this.ay;
+          this.y0 = obstacles[i].y - this.h
         } 
-      })
-
+        break;
+      } else if (!this.crashWithTopObstacle(obstacles[i]) && this.y0 === obstacles[i].y - this.h) {
+        //console.log('entra')
+        this.y0 = 350
+        break;
+      }
+    }
   };
+
+  
 
   crashWithTopObstacle = obs => {
     let pos = 0;
@@ -84,7 +124,7 @@ class Player {
         if (this.x + this.w === obs.x && this.y + this.h < obs.y) {
           pos = 1;
         //detección por abajo  
-        } else if (this.x + this.w === obs.x && this[i].y > obs.y + obs.h) {
+        } else if (this.x + this.w === obs.x && this.y > obs.y + obs.h) {
           pos = 2;
         //detección cuando choca con la parte izda del obstaculo  
         } else if (
