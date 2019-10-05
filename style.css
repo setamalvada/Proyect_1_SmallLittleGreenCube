@@ -1,7 +1,169 @@
+body{
+    margin:0;
+    
+}
+
 #my-canvas {
-    background-color: white;
+    background-color: transparent;
     position:absolute;
     top:0;
     left:0;
+    z-index: 100;
 }
 
+#div1{
+   position: relative;
+   top: -300px;
+    width: 900px;
+    height: 400px;
+    background-color: red;
+    -webkit-animation-name: example; 
+    -webkit-animation-duration: 4s; 
+    animation-name: example;
+    animation-duration: 60s;
+    z-index:- 1;
+  }
+  
+  @-webkit-keyframes example {
+    0%   {background-color: red;}
+    25%  {background-color: yellow;}
+    50%  {background-color: blue;}
+    100% {background-color: green;}
+  }
+  
+  @keyframes example {
+    0%   {background-color: red;}
+    25%  {background-color: yellow;}
+    50%  {background-color: blue;}
+    100% {background-color: green;}
+  }
+
+  /*animación para estrellas*/
+
+  .stars {
+    position: relative;
+    background-color: white;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    animation-iteration-count: infinite;
+    z-index: 10;
+  }
+
+  .star-1 {
+    margin-top: 50px; 
+    margin-left: 60%;
+    animation-duration: 1s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  .star-2 {
+    margin-top: 30px;
+    margin-left: 28%;
+    animation-duration: 0.9s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  .star-3 {
+    margin-top: 9px;
+    margin-left: 5%;
+    animation-duration: 1.4s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+.star-4 {
+    margin-top: 5px;
+    margin-left: 40%;
+    animation-duration: 0.6s;
+    animation-name: twinkle;
+    z-index: 10;
+}
+.star-5 {
+    margin-top: 3px;
+    margin-left: 37%;
+    animation-duration: 1s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+.star-6 {
+    margin-top: 5px;
+    margin-left: 55%;
+    animation-duration: 0.7s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+.star-7 {
+    margin-top: 1px;
+    margin-left: 22%;
+    animation-duration: 1.3s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+.star-8 {
+    margin-top: 4px;
+    margin-left: 70%;
+    animation-duration: 0.8s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+.star-9 {
+    margin-top: 3px;
+    margin-left: 30%;
+    animation-duration: 1.2s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  .star-10 {
+    margin-top: 3px;
+    margin-left: 60%;
+    animation-duration: 1.2s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  .star-11 {
+    margin-top: 3px;
+    margin-left: 36%;
+    animation-duration: 1.2s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  .star-12 {
+    margin-top: 3px;
+    margin-left: 40%;
+    animation-duration: 1.2s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  .star-13 {
+    margin-top: 3px;
+    margin-left: 10%;
+    animation-duration: 1.2s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  .star-14 {
+    margin-top: 3px;
+    margin-left: 20%;
+    animation-duration: 1.2s;
+    animation-name: twinkle;
+    z-index: 10;
+  }
+
+  @keyframes twinkle {
+    20% {
+      transform: scale(0.5);
+      opacity: 0.5;
+    }
+  }
+
+  
+
+  /*animación para rotar algo
+  {color:#fff;-webkit-transform:rotate(360deg);}*/

@@ -1,7 +1,9 @@
 class Game {
       constructor(ctx) {
         this.ctx = ctx;
-        this.bg = new Background(ctx)
+        this.bg = new Background(ctx, new Image(), "images/background_3.png", -2)
+        this.bg2 = new Background(ctx, new Image(), "images/background_2.png", -4)
+        this.bg3 = new Background(ctx, new Image(), "images/background_1.png", -6)
         this.player = new Player(ctx) 
         this.audio = new Audio("sounds/SLGC_trimmed2.mp3")
     
@@ -9,6 +11,14 @@ class Game {
         //this.bg = new Background(ctx)
         //this.car = new Car(ctx)  
         this.intervalId = null
+        this.spikes = [
+          new Spike (ctx,1000,350,50,50)
+        ]
+
+        this.movingObstacles = [
+          new MovingObstacle (ctx,400,200,50,50)
+        ]
+
         //this.intervalIdTime = null;
         this.obstacles = [new Obstacle(ctx,1250,339,350,50),
          new Obstacle(ctx,1750,330,300,30),
@@ -52,21 +62,22 @@ class Game {
     //this.audio.play()
    
     this.intervalId = setInterval(() => {
-      //this._clear()
-      this.audio.play()
-      console.log(this.obstacles)
+     // this.audio.play()
+     // console.log(this.obstacles)
       //console.log(this.tick++)
-      console.log(this.bg.x)
+      //console.log(this.bg.x)
       this._clear()
       
       this.draw()
       this._move()
+     // this.movingObstacles.rotate1()
       this.player.runningOnObstacle(this.obstacles)
       this.player.crashWithTopObstacle(this.obstacles)
       
       this.player.checkIsFloor()
       this.clearObstacles()
-      
+      this._checkCollisions()
+      this._checkCollisions1()
     }, 1000 / 60)
   }
   //Aquí van los métodos
@@ -78,8 +89,12 @@ class Game {
 
   draw() {
     this.bg.draw()
+    this.bg2.draw()
+    this.bg3.draw()
     this.player.draw()
     this.obstacles.forEach(o => o.draw())
+    this.spikes.forEach(o => o.draw())
+    this.movingObstacles.forEach(o => o.draw())
 /*
     this.tick++
 
@@ -90,9 +105,16 @@ class Game {
   }
   _move() {
     this.bg.move()
+    this.bg2.move()
+    this.bg3.move()
     this.player.move()
     this.obstacles.forEach(o => o.move())
+    this.spikes.forEach(o => o.move())
+    this.movingObstacles.forEach(o => o.move())
+
   }
+
+ 
 
   clearObstacles(){
     this.obstacles = this.obstacles.filter(o => {
@@ -101,18 +123,30 @@ class Game {
   
 }
   _checkCollisions(){
-    const col = this.obstacles1.some(o => {
+    const col = this.spikes.some(o => {
       const result =o.collide(this.player)
-      // console.log(result)
+      console.log(result)
       return result
     })
   
     if (col) {
-      this._gameOver()
+      //this._gameOver()
+      console.log("game over")
     }
   }
 
+  _checkCollisions1(){
+    const col = this.movingObstacles.some(o => {
+      const result =o.collide1(this.player)
+      console.log(result)
+      return result
+    })
   
+    if (col) {
+      //this._gameOver()
+      console.log("game over")
+    }
+  }
   
 
   _gameOver() {
