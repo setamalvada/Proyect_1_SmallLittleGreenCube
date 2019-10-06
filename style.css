@@ -11,6 +11,8 @@ body{
     z-index: 100;
 }
 
+
+
 #div1{
    position: relative;
    top: -300px;
@@ -23,14 +25,11 @@ body{
     animation-duration: 289s;
     z-index:- 1;
     animation-timing-function: linear;
+    animation-delay: 15s;
   }
   
   @-webkit-keyframes example {
-    /*0%   {background-color: rgb(162, 211, 218);}
-    10.73%  {background-color: rgb(248, 160, 28);}
-    31.14%  {background-color: rgb(16, 28, 61);}
-    70.93% {background-color: rgb(206, 129, 193);}
-    100%   {background-color: rgb(162, 211, 218);}*/
+   
     0%   {background-color: rgb(162, 211, 218);}
     31.14%  {background-color: rgb(248, 160, 28);}
     70.93%  {background-color: rgb(16, 28, 61);}
@@ -55,7 +54,7 @@ body{
     animation-iteration-count: infinite;
     z-index: 10;
     animation-duration: 80s;
-    animation-delay: 126s;
+    animation-delay: 130s;
   }
 
   .star-1 {

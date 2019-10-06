@@ -4,12 +4,12 @@ const M_KEY = 77;
 class Player {
   constructor(ctx) {
     this.ctx = ctx;
-    this.x = 100;
+    this.x = 200;
     this.y0 = 350;
     this.y = this.y0;
     this.w = 50;
     this.h = 50;
-    this.vy = 3;
+    this.vy = 0;
     this.g=0.8;
     this.vx = 0
     this.ay = 0.8;
@@ -20,11 +20,31 @@ class Player {
     this._setListeners();
     //this.crashWithUpperParts(obs)
     //this.obstacle= [new Obstacle(ctx,700,700,300,30)]
+    this.img = new Image()
+    this.img.src = "images/cube_ready.png"
+    this.img.frames = 2
+    this.img.frameIndex = 0
+
   }
 
   draw() {
-    this.ctx.fillRect(this.x, this.y, this.w, this.h);
-    this.ctx.fillStyle = "#FF0000";
+    this.ctx.drawImage(
+      this.img,
+      this.img.frameIndex * this.img.width / 2,
+      0,
+      this.img.width / 2,
+      this.img.height,
+      this.x,
+      this.y,
+      this.w,
+      this.h
+      
+    );
+
+    this._animate()
+
+    
+    
   }
 
   move() {
@@ -41,15 +61,29 @@ class Player {
       this.y = this.y0;
     }
 
-    
+        
+  }
 
-    
+  _animate() {
+    this.tick++
+
+    if (this.tick > 8) {
+      this.tick = 0
+
+      if (!this._isJumping()) {
+        this.img.frameIndex++
+      }
+    }
+
+    if (this.img.frameIndex >= this.img.frames) {
+      this.img.frameIndex = 0
+    }
   }
 
   _setListeners() {
     document.onkeydown = e => {
       if (e.keyCode === SPACE_KEY) {
-       if(this.tick>4300){
+       if(this.tick<4300){
         this._jump();
       }
       else{
@@ -77,7 +111,8 @@ class Player {
   _jump() {
     if (!this._isJumping()) {
       this.jumping = true;
-      this.y -= 17;
+      this.img.frameIndex = 2
+      this.y -= 19;
       this.vy -= 15;
     }
   }

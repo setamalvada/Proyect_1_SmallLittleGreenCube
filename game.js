@@ -6,7 +6,7 @@ class Game {
         this.bg3 = new Background(ctx, new Image(), "images/background_1.png", -6)
         this.player = new Player(ctx) 
         this.audio = new Audio("sounds/SLGC_trimmed2.mp3")
-    
+        this.frameNo = 0;
 
         //this.bg = new Background(ctx)
         //this.car = new Car(ctx)  
@@ -25,38 +25,7 @@ class Game {
 
         //this.intervalIdTime = null;
         this.obstacles = [
-          // new Obstacle(ctx,300,350,350,50),
-         //  new Obstacle(ctx,1750,330,300,30),
-        //  new Obstacle(ctx,2050,240,2000,30),
-        //  new Obstacle(ctx,4250,300,600,30),
-        //  new Obstacle(ctx,4850,340,500,30),
-        //  new Obstacle(ctx,5550,282,300,30),
-        //  new Obstacle(ctx,6000,250,300,30),
-        //  new Obstacle(ctx,6500,220,300,30),
-        //  new Obstacle(ctx,6900,310,500,30),
-        //  new Obstacle(ctx,7600,281,300,30),
-        //  new Obstacle(ctx,8100,251,300,30),
-        //  new Obstacle(ctx,8500,210,300,30),
-        //  new Obstacle(ctx,9000,280,300,30),
-        //  new Obstacle(ctx,9500,220.03,150,30),
-        //  new Obstacle(ctx,9650,220.1,150,30),
-        //  new Obstacle(ctx,9900,320.1,500,30),
-        //  new Obstacle(ctx,9900,320.2,310,30),
-        //  new Obstacle(ctx,10600,280.01,500,30),
-        //  new Obstacle(ctx,11100,210.01,300,30),
-        //  new Obstacle(ctx,11600,150.01,500,30),
-        //  new Obstacle(ctx,12300,90.01,450,30),
-        //  new Obstacle(ctx,12900,150.04,400,30),
-        //  new Obstacle(ctx,13400,100.02,600,30),
-        //  new Obstacle(ctx,14000,150.02,800,30),
-        //  new Obstacle(ctx,15000,125.02,400,30),
-        //  new Obstacle(ctx,15600,202.02,500,30),
-        //  new Obstacle(ctx,16100,280.021,300,30),
-        //  new Obstacle(ctx,16500,280.03,600,30),
-        //  new Obstacle(ctx,17200,350.001,300,30),
-        //  new Obstacle(ctx,17500,260.003,600,30),
-        //  new Obstacle(ctx,18200,280.03,400,30),
-        //  new Obstacle(ctx,18750,280.004,900,30),
+    
 
         
          
@@ -89,7 +58,7 @@ class Game {
       this._checkCollisions1()
       //this._checkCollisions2()
 
-       if (this.tick++ > 10000) {
+       if (this.tick++ > 11000) {
         this.tick = 0
       }
 
@@ -130,19 +99,30 @@ class Game {
   }
 
   _addObstacle() {
+    this.frameNo += 1
+const gapMax=120
+const gapMin = 60
+let gap = Math.floor(Math.random()*(gapMax-(gapMin + 1))+(gapMin))
   let y1 = 50
   let x = Math.floor(Math.random()*(this.ctx.canvas.width-this.ctx.canvas.width/2)+this.ctx.canvas.width/2)
-  let y = Math.floor(Math.random()*(this.ctx.canvas.height-(this.ctx.canvas.height/1.5))+(this.ctx.canvas.height/1.5))
+  let y = Math.floor(Math.random()*((this.ctx.canvas.height-20)-(this.ctx.canvas.height/1.5))+(this.ctx.canvas.height/1.5))
   let y2 = 0
- 
-  if (this.tick % 60) return 
 
+
+  if (this.frameNo == 1 || this.everyinterval(70)) {
     this.obstacles.push(
       new Obstacle(this.ctx,null,y))
+}
 
-      if (this.tick++ >100){
+  
+ 
+  if (this.tick % 65) return 
+
+   
+
+      if (this.tick++ >1550){
         this.spikes.push(
-          new Spike(this.ctx,this.ctx.canvas.width/2,y)
+          new Spike(this.ctx,this.ctx.canvas.width*2.5/3,y)
         )  
 
       if (this.tick1++ >3000){
@@ -165,6 +145,11 @@ class Game {
   
     
   }
+
+  everyinterval(n) {
+    if ((this.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
 
   clearObstacles(){
     this.obstacles = this.obstacles.filter(o => {
