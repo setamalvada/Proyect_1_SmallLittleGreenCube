@@ -24,6 +24,7 @@ class Player {
     this.img.src = "images/cube_ready.png"
     this.img.frames = 2
     this.img.frameIndex = 0
+    this.life = 5
 
   }
 
@@ -171,7 +172,7 @@ class Player {
         //detección cuando se encuentra  a lo largo del obstaculo
         } else if (
           obs.x <= this.x + this.w &&
-          this.x + this.w <= obs.x + obs.w 
+          this.x + this.w <= obs.x + obs.w + (this.w / 1.5)
         ){
           pos = 4;
       } else {

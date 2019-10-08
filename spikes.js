@@ -2,8 +2,8 @@ class Spike {
   constructor(ctx,x,y,w,h) {
     this.ctx = ctx
     this.y = Math.floor(Math.random()*(this.ctx.canvas.height-(this.ctx.canvas.height/4))+(this.ctx.canvas.height/4)) 
-    this.h = 50
-    this.w = 50
+    this.h = 25
+    this.w = 25
     this.x = x
     this.ay = 0.8
     this.vx = -15

@@ -4,7 +4,8 @@ class Obstacle {
       this.x = this.ctx.canvas.width
       this.y = y
       this.w = Math.floor(Math.random()*(500-300)+300);
-      this.h = Math.floor(Math.random()*(60-10)+30);
+      this.h = 10
+      // or Math.floor(Math.random()*(60-10)+30);
          
       this.gap = Math.floor(Math.random()*(250-10+1)+10)
       this.vx = -7

@@ -6,6 +6,7 @@ class Game {
         this.bg3 = new Background(ctx, new Image(), "images/background_1.png", -6)
         this.player = new Player(ctx) 
         this.audio = new Audio("sounds/SLGC_trimmed2.mp3")
+        this.audioCoin = new Audio("sounds/coin.wav")
         this.frameNo = 0;
 
         //this.bg = new Background(ctx)
@@ -30,12 +31,14 @@ class Game {
         
          
         ]
+
+        this.coins = []
         
     
         this.tick = 0
         this.tick1 = 0 
         this.tick2 = 0 
-
+        this.tickCoins = 0
   }
 
  
@@ -44,18 +47,20 @@ class Game {
    
    
     this.intervalId = setInterval(() => {
-      this.audio.play()
+      //this.audio.play()
       this._clear()
       this._addObstacle()
       this.draw()
       this._move()
-      console.log(this.tick1++)
+      //console.log(this.tick1++)
       this.player.runningOnObstacle(this.obstacles)
       //this.createRandomObstacle()
       this.player.checkIsFloor()
       this.clearObstacles()
       this._checkCollisions()
-      this._checkCollisions1()
+      // this._checkCollisions1()
+      // console.log(
+      //   this.coins.forEach(o => o.visible))
       //this._checkCollisions2()
 
        if (this.tick++ > 11000) {
@@ -79,6 +84,9 @@ class Game {
     this.obstacles.forEach(o => o.draw())
     this.spikes.forEach(o => o.draw())
     this.movingObstacles.forEach(o => o.draw())
+    // if(this.coins.hits > 0){
+    this.coins.forEach(o => o.draw() )
+    // }
 /*
     this.tick++
 
@@ -95,6 +103,7 @@ class Game {
     this.obstacles.forEach(o => o.move())
     this.spikes.forEach(o => o.move())
     this.movingObstacles.forEach(o => o.move())
+    this.coins.forEach(o => o.move())
 
   }
 
@@ -109,11 +118,17 @@ let gap = Math.floor(Math.random()*(gapMax-(gapMin + 1))+(gapMin))
   let y2 = 0
 
 
-  if (this.frameNo == 1 || this.everyinterval(70)) {
+  if (this.frameNo == 1 || this.everyInterval(70)) {
     this.obstacles.push(
       new Obstacle(this.ctx,null,y))
 }
 
+if (this.tickCoins++ === 30){
+  this.tickCoins = 0
+  this.coins.push(
+    new Coin(this.ctx)
+  )
+  }
   
  
   if (this.tick % 65) return 
@@ -125,17 +140,20 @@ let gap = Math.floor(Math.random()*(gapMax-(gapMin + 1))+(gapMin))
           new Spike(this.ctx,this.ctx.canvas.width*2.5/3,y)
         )  
 
-      if (this.tick1++ >3000){
+      if (this.tick++ >3000){
 
     this.movingObstacles.push(
-      new MovingObstacle(this.ctx,x,y2)
+      new MovingObstacle(this.ctx)
     )
-    
+
+   
    
   }
 
 
   }
+
+
     // for(let i = 0; i <this.obstacles.length; i++){
     //   if(this.obstacles[i+1].y-this.obstacles[i+1].y > 50){
     //     this.obstacles[i+1].y = this.obstacles[i+1].y-40
@@ -146,7 +164,7 @@ let gap = Math.floor(Math.random()*(gapMax-(gapMin + 1))+(gapMin))
     
   }
 
-  everyinterval(n) {
+  everyInterval(n) {
     if ((this.frameNo / n) % 1 == 0) {return true;}
     return false;
 }
@@ -155,25 +173,64 @@ let gap = Math.floor(Math.random()*(gapMax-(gapMin + 1))+(gapMin))
     this.obstacles = this.obstacles.filter(o => {
       return o.x + o.w >= 0
     })
+
+    this.movingObstacles = this.movingObstacles.filter(o => {
+      return o.x + o.w >= 0
+    })
+
+    this.coins = this.coins.filter(o => {
+      return o.x + o.w >= 0
+    })
+
+
+    
   
 }
   _checkCollisions(){
-    const col = this.spikes.some(o => {
+
+
+
+
+    const colSpikes = this.spikes.some(o => {
       const result =o.collide(this.player)
       //console.log(result)
       return result
     })
   
-    if (col) {
+    if (colSpikes) {
       //this._gameOver()
       //console.log("game over")
+      this.player.life--
+      if(this.player.life <= 0){
+         //this._gameOver()
+      }
     }
 
-    
+    const colCoin = this.coins.some(o => {
+      const result = o.collide(this.player)
+      o.hits--
 
-  }
+      //console.log(result)
+      if(result){
+        this.coins = this.coins.filter(obs => obs != o)
+      }
+    })
+  
+   
 
-  _checkCollisions1(){
+    if (colCoin) {
+
+      let countCoins = 0
+      countCoins++
+      this.coins.filter(c => c.hits <= 0)
+      // this.coins.forEach(o => {o.visible = true
+      //   console.log(o.visible)})
+      console.log(this.coins)
+      this.audioCoin.play()
+     
+      
+    }
+
     const col = this.movingObstacles.some(o => {
       const result =o.collide1(this.player)
     //  console.log(result)
@@ -181,16 +238,16 @@ let gap = Math.floor(Math.random()*(gapMax-(gapMin + 1))+(gapMin))
     })
   
     if (col) {
-      //this._gameOver()
-      //console.log("game over")
+      this.player.life--
+      if(this.player.life <= 0){
+         //this._gameOver()
+      }
     }
-
     
 
-   
-    
   }
-  
+
+
  
   
 
