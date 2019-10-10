@@ -49,8 +49,9 @@ body{
     top: 0px;
     z-index:1000;
     width: 900px;
-    height: 400px;
+    height: 475px;
     background-color: red;
+    background-image: url("images/tittle.png")
   }
   .fade-out{
     animation-name: fade-out;
@@ -196,7 +197,40 @@ body{
     }
   }
 
+  .life{
+    position: relative;
+    top:5px;
+   
+    width: 50px;
+    height: 50px;
+  }
   
+  .pannel{
+    border-top: 10px solid #A40000;
+    background-color: black;
+    width: 900px;
+  }
 
-  /*animación para rotar algo
+  #game-board{
+    width: 900px;
+    height: 350px;
+  }
+
+  #coinscounter{
+    font-family: 'Impact', Charcoal, sans-serif;
+    font-size: 20px;
+    position: relative;
+    top:15px;
+    text-align: center;
+    color: white;
+    float: right;
+  }
+
+  #coins{
+    position: relative;
+    top:5px;
+    float: left;
+  }
+/*
+  animación para rotar algo
   {color:#fff;-webkit-transform:rotate(360deg);}*/

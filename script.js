@@ -4,7 +4,7 @@
     
   
 
-   var gameStarted = false;
+   const gameStarted = false;
 
 document.body.addEventListener("keydown", function(event){
 
@@ -29,3 +29,4 @@ function loop(){
 function clearCanvas(){
 	ctx.clearRect(0, 0, 640, 360);
 }
+

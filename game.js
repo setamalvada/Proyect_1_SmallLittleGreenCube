@@ -7,6 +7,10 @@ class Game {
         this.player = new Player(ctx) 
         this.audio = new Audio("sounds/SLGC_trimmed2.mp3")
         this.audioCoin = new Audio("sounds/coin.wav")
+        this.audiohurt = new Audio("sounds/damage.mp3")
+        this.audioLife = new Audio ("sounds/life.mp3")
+        this.gameOverAudio = new Audio("sounds/death2.wav")
+        this.gameOverAudio2 = new Audio("sounds/barrel.wav")
         this.frameNo = 0;
 
         //this.bg = new Background(ctx)
@@ -24,6 +28,10 @@ class Game {
           //new MovingObstacle (ctx,400,200,50,50)
         ]
 
+        this.newLife = [
+          //new MovingObstacle (ctx,400,200,50,50)
+        ]
+
         //this.intervalIdTime = null;
         this.obstacles = [
     
@@ -32,6 +40,8 @@ class Game {
          
         ]
 
+        this.barrelInFlames = []
+
         this.coins = []
         
     
@@ -39,6 +49,8 @@ class Game {
         this.tick1 = 0 
         this.tick2 = 0 
         this.tickCoins = 0
+        this.tickLife = 0
+        this.tickBarrel = 0
   }
 
  
@@ -48,6 +60,8 @@ class Game {
    
     this.intervalId = setInterval(() => {
       //this.audio.play()
+      this.paintLife()
+      
       this._clear()
       this._addObstacle()
       this.draw()
@@ -62,6 +76,7 @@ class Game {
       // console.log(
       //   this.coins.forEach(o => o.visible))
       //this._checkCollisions2()
+      console.log(this.player.life)
 
        if (this.tick++ > 11000) {
         this.tick = 0
@@ -84,17 +99,11 @@ class Game {
     this.obstacles.forEach(o => o.draw())
     this.spikes.forEach(o => o.draw())
     this.movingObstacles.forEach(o => o.draw())
-    // if(this.coins.hits > 0){
+    this.newLife.forEach(o => o.draw())
     this.coins.forEach(o => o.draw() )
-    // }
-/*
-    this.tick++
-
-    if (this.tick > Math.random() * 300 + 200) {
-      this.tick = 0
-      this._addObstacle()
-    }*/
+    this.barrelInFlames.forEach(o => o.draw() )
   }
+
   _move() {
     this.bg.move()
     this.bg2.move()
@@ -103,6 +112,8 @@ class Game {
     this.obstacles.forEach(o => o.move())
     this.spikes.forEach(o => o.move())
     this.movingObstacles.forEach(o => o.move())
+    this.newLife.forEach(o => o.move())
+    this.barrelInFlames.forEach(o => o.move() )
     this.coins.forEach(o => o.move())
 
   }
@@ -129,8 +140,21 @@ if (this.tickCoins++ === 30){
     new Coin(this.ctx)
   )
   }
+
+  if (this.tickBarrel++ === 775){
+    this.tickBarrel = 0
+    this.barrelInFlames.push(
+      new BarrelInFlames(this.ctx)
+    )
+    }  
   
- 
+  if (this.tickLife++ === 1000){
+this.tickLife = 0
+    this.newLife.push(
+      new Life(this.ctx)
+    )
+    }
+
   if (this.tick % 65) return 
 
    
@@ -139,6 +163,9 @@ if (this.tickCoins++ === 30){
         this.spikes.push(
           new Spike(this.ctx,this.ctx.canvas.width*2.5/3,y)
         )  
+
+
+       
 
       if (this.tick++ >3000){
 
@@ -154,11 +181,6 @@ if (this.tickCoins++ === 30){
   }
 
 
-    // for(let i = 0; i <this.obstacles.length; i++){
-    //   if(this.obstacles[i+1].y-this.obstacles[i+1].y > 50){
-    //     this.obstacles[i+1].y = this.obstacles[i+1].y-40
-    //   }
-    // }
     
   
     
@@ -182,6 +204,14 @@ if (this.tickCoins++ === 30){
       return o.x + o.w >= 0
     })
 
+    this.barrelInFlames = this.barrelInFlames.filter(o => {
+      return o.x + o.w >= 0
+    })
+
+    this.newLife = this.newLife.filter(o => {
+      return o.x + o.w >= 0
+    })
+
 
     
   
@@ -193,26 +223,59 @@ if (this.tickCoins++ === 30){
 
     const colSpikes = this.spikes.some(o => {
       const result =o.collide(this.player)
+      o.hits--
+
       //console.log(result)
-      return result
+      if(result){
+        //this.player.die()
+        this.audiohurt.play()
+        this.spikes = this.spikes.filter(obs => obs != o)
+        this.player.life--
+        if(this.player.life <= 0){
+          this._gameOver()
+       }
+      }
     })
   
     if (colSpikes) {
-      //this._gameOver()
-      //console.log("game over")
-      this.player.life--
-      if(this.player.life <= 0){
-         //this._gameOver()
+      this.spikes.filter(c => c.hits <= 0)
+
+      
+    }
+
+    const colBarrelInFlames = this.barrelInFlames.some(o => {
+      const result =o.collide(this.player)
+      o.hits--
+
+      //console.log(result)
+      if(result){
+        
+        this.audiohurt.play()
+        this.barrelInFlames = this.barrelInFlames.filter(obs => obs != o)
+        this.player.life = this.player.life -5
+        if(this.player.life <= 0){
+          this._gameOver2()
+       }
       }
+    })
+  
+    if (colBarrelInFlames) {
+      this.barrelInFlames.filter(c => c.hits <= 0)
+
+      
     }
 
     const colCoin = this.coins.some(o => {
       const result = o.collide(this.player)
       o.hits--
 
-      //console.log(result)
       if(result){
+        // this.player.die2()
         this.coins = this.coins.filter(obs => obs != o)
+        this.player.coinsCounter++
+        console.log(this.player.coinsCounter)
+        document.getElementById("coinscounter").innerHTML= `x ${this.player.coinsCounter}`
+        this.audioCoin.play()
       }
     })
   
@@ -220,28 +283,53 @@ if (this.tickCoins++ === 30){
 
     if (colCoin) {
 
-      let countCoins = 0
-      countCoins++
+      
+     
+      
       this.coins.filter(c => c.hits <= 0)
-      // this.coins.forEach(o => {o.visible = true
-      //   console.log(o.visible)})
-      console.log(this.coins)
-      this.audioCoin.play()
+     
      
       
     }
 
     const col = this.movingObstacles.some(o => {
       const result =o.collide1(this.player)
-    //  console.log(result)
-      return result
+      o.hits--
+
+      if(result){
+        this.audiohurt.play()
+        this.player.life--
+        if(this.player.life <= 0){
+          this._gameOver()
+       }
+        this.movingObstacles = this.movingObstacles.filter(obs => obs != o)
+      }
     })
   
     if (col) {
-      this.player.life--
-      if(this.player.life <= 0){
-         //this._gameOver()
+     
+      this.hits.filter(c => c.hits <= 0)
+      
+    }
+
+
+    const colLife = this.newLife.some(o => {
+      const result2 =o.collide1(this.player)
+      o.hits--
+
+      if(result2){
+        this.audioLife.play()
+        this.player.life++
+        if(this.player.life > 5){
+          this.player.life = 5
+       }
+        this.newLife = this.newLife.filter(obs => obs != o)
       }
+    })
+    if (colLife) {
+     
+      this.hits.filter(c => c.hits <= 0)
+      
     }
     
 
@@ -252,10 +340,10 @@ if (this.tickCoins++ === 30){
   
 
   _gameOver() {
-    //this.audio.pause()
+    this.audio.pause()
     clearInterval(this.intervalId)
 
-    //this.gameOverAudio.play()
+    this.gameOverAudio.play()
     this.ctx.font = "40px Comic Sans MS";
     this.ctx.textAlign = "center";
     this.ctx.fillText(
@@ -264,5 +352,73 @@ if (this.tickCoins++ === 30){
       this.ctx.canvas.height / 2
     );
   }
+
+  _gameOver2() {
+    this.audio.pause()
+    clearInterval(this.intervalId)
+
+    this.gameOverAudio2.play()
+    this.ctx.font = "40px Comic Sans MS";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(
+      "GAME OVER",
+      this.ctx.canvas.width / 2,
+      this.ctx.canvas.height / 2
+    );
+  }
+
+  paintLife(){
+    if(this.player.life ===5){
+      document.getElementById("heart5").src = "images/lifefull.png";
+      document.getElementById("heart4").src = "images/lifefull.png";
+      document.getElementById("heart3").src = "images/lifefull.png";
+      document.getElementById("heart2").src = "images/lifefull.png";
+      document.getElementById("heart1").src = "images/lifefull.png";
+
+
+
+
+    }
+
+    if(this.player.life ===4){
+     document.getElementById("heart5").src = "images/lifeempty.png";
+     document.getElementById("heart4").src = "images/lifefull.png";
+      document.getElementById("heart3").src = "images/lifefull.png";
+      document.getElementById("heart2").src = "images/lifefull.png";
+      document.getElementById("heart1").src = "images/lifefull.png";
+
+    }
+    else if(this.player.life ===3){
+      document.getElementById("heart5").src = "images/lifeempty.png";
+     document.getElementById("heart4").src = "images/lifeempty.png";
+     document.getElementById("heart3").src = "images/lifefull.png";
+     document.getElementById("heart2").src = "images/lifefull.png";
+     document.getElementById("heart1").src = "images/lifefull.png";
+
+    }
+    else if(this.player.life ===2){
+      document.getElementById("heart5").src = "images/lifeempty.png";
+     document.getElementById("heart4").src = "images/lifeempty.png";
+     document.getElementById("heart3").src = "images/lifeempty.png";
+     document.getElementById("heart2").src = "images/lifefull.png";
+     document.getElementById("heart1").src = "images/lifefull.png";
+    }
+    else if(this.player.life ===1){
+      document.getElementById("heart5").src = "images/lifeempty.png";
+     document.getElementById("heart4").src = "images/lifeempty.png";
+     document.getElementById("heart3").src = "images/lifeempty.png";
+     document.getElementById("heart2").src = "images/lifeempty.png";
+     document.getElementById("heart1").src = "images/lifefull.png";
+    }
+    else if(this.player.life ===0){
+      document.getElementById("heart5").src = "images/lifeempty.png";
+     document.getElementById("heart4").src = "images/lifeempty.png";
+     document.getElementById("heart3").src = "images/lifeempty.png";
+     document.getElementById("heart2").src = "images/lifeempty.png";
+     document.getElementById("heart1").src = "images/lifeempty.png";
+    }
+  }
+
+  
 
 }  

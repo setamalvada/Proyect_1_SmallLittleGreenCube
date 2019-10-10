@@ -1,15 +1,15 @@
-class MovingObstacle {
+class BarrelInFlames {
     constructor(ctx,x,y,w,h) {
       this.ctx = ctx
       this.x = this.ctx.canvas.width
-      this.y = Math.floor(Math.random()*((this.ctx.canvas.height-100)-(this.ctx.canvas.height/4))+(this.ctx.canvas.height/4))
+      this.y = 325
       this.w = 75
-      this.h = 50
+      this.h = 75
       this.vx = -10
       // this.vy = 6
       this.img = new Image()
-    this.img.src = "images/bird.png"
-    this.img.frames = 3
+    this.img.src = "images/barrel.png"
+    this.img.frames = 8
     this.img.frameIndex = 0
     this.tick = 0
     }
@@ -17,9 +17,9 @@ class MovingObstacle {
     draw() {
       this.ctx.drawImage(
         this.img,
-        this.img.frameIndex * (this.img.width / 3),
+        this.img.frameIndex * (this.img.width / 8),
         0,
-        this.img.width/3,
+        this.img.width/8,
         this.img.height,
         this.x,
         this.y,
@@ -41,11 +41,11 @@ class MovingObstacle {
     _animate() {
       this.tick++
   
-      if (this.tick > 8) {
+      if (this.tick > 1) {
         this.tick = 0
   
         
-          this.img.frameIndex++
+          this.img.frameIndex = 0
         
       }
   
@@ -55,7 +55,7 @@ class MovingObstacle {
     }  
       
 
-    collide1(el) {
+    collide(el) {
         const colX = el.x + el.w > this.x && el.x < this.x + this.w
         const colY = el.y + el.h > this.y && el.y < this.y + this.h
     

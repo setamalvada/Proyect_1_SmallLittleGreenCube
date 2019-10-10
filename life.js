@@ -1,15 +1,15 @@
-class MovingObstacle {
+class Life {
     constructor(ctx,x,y,w,h) {
       this.ctx = ctx
       this.x = this.ctx.canvas.width
       this.y = Math.floor(Math.random()*((this.ctx.canvas.height-100)-(this.ctx.canvas.height/4))+(this.ctx.canvas.height/4))
-      this.w = 75
-      this.h = 50
+      this.w = 40
+      this.h = 40
       this.vx = -10
       // this.vy = 6
       this.img = new Image()
-    this.img.src = "images/bird.png"
-    this.img.frames = 3
+    this.img.src = "images/lifefull.png"
+    this.img.frames = 1
     this.img.frameIndex = 0
     this.tick = 0
     }
@@ -17,9 +17,9 @@ class MovingObstacle {
     draw() {
       this.ctx.drawImage(
         this.img,
-        this.img.frameIndex * (this.img.width / 3),
+        this.img.frameIndex * (this.img.width / 1),
         0,
-        this.img.width/3,
+        this.img.width/1,
         this.img.height,
         this.x,
         this.y,
@@ -28,7 +28,7 @@ class MovingObstacle {
         this.hits = 1
       );
   
-      this._animate()
+     // this._animate()
 
     }
   
@@ -36,8 +36,7 @@ class MovingObstacle {
       this.x += this.vx
       // this.y += this.vy
     }
-
-    
+/*
     _animate() {
       this.tick++
   
@@ -54,7 +53,7 @@ class MovingObstacle {
       }
     }  
       
-
+*/
     collide1(el) {
         const colX = el.x + el.w > this.x && el.x < this.x + this.w
         const colY = el.y + el.h > this.y && el.y < this.y + this.h

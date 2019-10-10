@@ -17,23 +17,27 @@ class Player {
     this.y0 = 350;
     this.jumping = true;
     this.tick = 0
+    this.tick1 = 0
+    this.audiojump = new Audio ("sounds/sqek.mp3")
     this._setListeners();
     //this.crashWithUpperParts(obs)
     //this.obstacle= [new Obstacle(ctx,700,700,300,30)]
     this.img = new Image()
     this.img.src = "images/cube_ready.png"
-    this.img.frames = 2
+    this.img.frames = 3
     this.img.frameIndex = 0
     this.life = 5
+    this.coinsCounter = 0
+    
 
   }
 
   draw() {
     this.ctx.drawImage(
       this.img,
-      this.img.frameIndex * this.img.width / 2,
+      this.img.frameIndex * this.img.width / this.img.frames,
       0,
-      this.img.width / 2,
+      this.img.width / this.img.frames,
       this.img.height,
       this.x,
       this.y,
@@ -74,12 +78,24 @@ class Player {
       if (!this._isJumping()) {
         this.img.frameIndex++
       }
+    
     }
 
-    if (this.img.frameIndex >= this.img.frames) {
+    if (this.img.frameIndex >= this.img.frames-1) {
       this.img.frameIndex = 0
     }
+    
   }
+
+  // die2(){
+  //   setInterval(this.die(),10000)
+  // }
+
+  // die(){
+  //  !this._animate()
+
+  //   this.img.frameIndex = 3
+  // }
 
   _setListeners() {
     document.onkeydown = e => {
@@ -112,14 +128,13 @@ class Player {
   _jump() {
     if (!this._isJumping()) {
       this.jumping = true;
-      this.img.frameIndex = 2
+      this.audiojump.play()
       this.y -= 19;
       this.vy -= 15;
     }
   }
 
   _jump2() {
-    
     this.ay = 0.6;
       this.y -= 10;
       this.vy -= 0.8;
@@ -127,6 +142,7 @@ class Player {
   }
 
   _isJumping() {
+    
     return this.y < this.y0;
   }
 
