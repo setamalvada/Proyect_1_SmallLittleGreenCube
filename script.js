@@ -1,14 +1,12 @@
-    const canvas = document.getElementById("my-canvas")
-    const ctx = canvas.getContext("2d")
-    
-    
-  
+const canvas = document.getElementById("my-canvas")
+const ctx = canvas.getContext("2d")
 
-   const gameStarted = false;
 
-document.body.addEventListener("keydown", function(event){
+const gameStarted = false;
 
-	if(event.keyCode == 13 && !gameStarted){
+document.body.addEventListener("keydown", function (event) {
+
+	if (event.keyCode == 13 && !gameStarted) {
 		startGame();
 		const divIntro = document.querySelector(".intro-game")
 		divIntro.classList.add("fade-out")
@@ -17,16 +15,15 @@ document.body.addEventListener("keydown", function(event){
 });
 
 
-function startGame(){
+function startGame() {
 	const game = new Game(ctx)
-    game.run()
+	game.run()
 }
 
-function loop(){
+function loop() {
 	console.log('game running');
 }
 
-function clearCanvas(){
+function clearCanvas() {
 	ctx.clearRect(0, 0, 640, 360);
 }
-
